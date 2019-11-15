@@ -36,7 +36,7 @@ const findDriverWorker = new Worker(
           }
         }
       });
-    }, 5000);
+    }, 2000);
 
     // You can make task as inprogress and update it later
     return {
@@ -212,7 +212,7 @@ setTimeout(() => {
         },
         payment: {
           price: 200,
-          type: "CREDIT_CARD",
+          type: "APP_WALLET", // CREDIT_CARD, CASH
           driverCost: 10
         },
         foods: ["#1 set", "Fire chicken", "Cola"]
