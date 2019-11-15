@@ -1,0 +1,23 @@
+{
+  "name": "melonade",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devit-tel/melonade.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devit-tel/melonade/issues"
+  },
+  "homepage": "https://github.com/devit-tel/melonade#readme",
+  "dependencies": {
+    "@melonade/melonade-client": "^0.6.6",
+    "uuid": "^3.3.3"
+  }
+}

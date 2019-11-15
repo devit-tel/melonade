@@ -1,7 +1,7 @@
 version: '3'
 services:
   process-manager:
-    image: 'nv4re/melonade-process-manager:v0.0.2'
+    image: 'nv4re/melonade-process-manager:v0.6.2-1'
     ports:
       - '8080:8080'
     depends_on:
@@ -10,6 +10,7 @@ services:
       - 'kafka'
     environment:
      - melonade.namespace=docker-compose
+     - melonade.example=true
      - runners.max=1
      - kafka.conf.bootstrap.servers=kafka:9092
      - server.hostname=0.0.0.0
