@@ -88,13 +88,17 @@ const t3Worker = new Worker(
 setTimeout(() => {
   const startTime = new Date().toISOString();
   for (let i = 0; i < TOTAL_TRANSACTION; i++) {
-    const transactionId = `${i}-${startTime}`
-    console.log(`Starting transactionId: ${transactionId}`)
-    adminClient.startTransaction(transactionId, {
-      name: "simple",
-      rev: "1"
-    }, {
-      hello: 'world'
-    });
+    const transactionId = `${i}-${startTime}`;
+    console.log(`Starting transactionId: ${transactionId}`);
+    adminClient.startTransaction(
+      transactionId,
+      {
+        name: "simple",
+        rev: "1"
+      },
+      {
+        hello: "world"
+      }
+    );
   }
 }, 5000);
