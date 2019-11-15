@@ -22,7 +22,7 @@ const t1Worker = new Worker(
     return {
       status: taskStates.Completed,
       output: {
-        hello: `${task.taskName} => ${task.input.hello}`
+        hello: `${task.input.hello} => ${task.taskName}`
       }
     };
   },
@@ -45,7 +45,7 @@ const t2Worker = new Worker(
     return {
       status: taskStates.Completed,
       output: {
-        hello: `${task.taskName} => ${task.input.hello}`
+        hello: `${task.input.hello} => ${task.taskName}`
       }
     };
   },
@@ -68,7 +68,7 @@ const t3Worker = new Worker(
     return {
       status: taskStates.Completed,
       output: {
-        hello: `${task.taskName} => ${task.input.hello}`
+        hello: `${task.input.hello} => ${task.taskName}`
       }
     };
   },
