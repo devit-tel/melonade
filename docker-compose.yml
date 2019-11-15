@@ -10,7 +10,7 @@ services:
       - "kafka"
     environment:
      - melonade.namespace=docker-compose
-     - runners.max=2
+     - runners.max=1
      - kafka.conf.bootstrap.servers=kafka:9092
      - server.port=80
      - server.enabled=true
@@ -32,7 +32,7 @@ services:
       - "kafka"
     environment:
      - melonade.namespace=docker-compose
-     - runners.max=2
+     - runners.max=1
      - kafka.conf.bootstrap.servers=kafka:9092
      - event-store.type=ELASTICSEARCH
      - event-store.elasticsearch.host=http://elasticsearch:9200
@@ -45,10 +45,10 @@ services:
       - "kafka"
     environment:
      - melonade.namespace=docker-compose
-     - runners.max=2
+     - runners.max=1
      - kafka.conf.bootstrap.servers=kafka:9092
      - timer-instance.type=REDIS
-     - transaction-instance.redis.host=redis
+     - timer-instance.redis.host=redis
      - timer-leader.type=ZOOKEEPER
      - timer-leader.zookeeper.connections=zookeeper:2181
 
