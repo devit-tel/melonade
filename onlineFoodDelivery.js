@@ -10,6 +10,13 @@ const namespace = "docker-compose";
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+const compensateTask = task => {
+  console.log(`Compensating: ${task.taskName}`)
+  return {
+    status: taskStates.Completed
+  }
+}
+
 console.log("Registering workers");
 
 const adminClient = new Admin({
@@ -50,7 +57,7 @@ const findDriverWorker = new Worker(
     //   status: taskStates.Failed
     // }
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
@@ -69,7 +76,7 @@ const sendOrderToStoreWorker = new Worker(
       status: taskStates.Completed
     };
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
@@ -88,7 +95,7 @@ const storePreparingFoodWorker = new Worker(
       status: taskStates.Completed
     };
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
@@ -107,7 +114,7 @@ const driverOnTheWayToStoreWorker = new Worker(
       status: taskStates.Completed
     };
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
@@ -126,7 +133,7 @@ const driverOnTheWayToCustomerWorker = new Worker(
       status: taskStates.Completed
     };
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
@@ -145,7 +152,7 @@ const waitForDriverRecivedCashFromCustomerWorker = new Worker(
       status: taskStates.Completed
     };
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
@@ -164,7 +171,7 @@ const takeMoneyFromCreditCardWorker = new Worker(
       status: taskStates.Completed
     };
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
@@ -183,7 +190,7 @@ const takeMoneyFromAppWalletWorker = new Worker(
       status: taskStates.Completed
     };
   },
-  undefined,
+  compensateTask,
   {
     kafkaServers,
     namespace,
