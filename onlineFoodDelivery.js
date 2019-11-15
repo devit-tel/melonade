@@ -212,7 +212,7 @@ setTimeout(() => {
         },
         payment: {
           price: 200,
-          type: "APP_WALLET", // CREDIT_CARD, CASH
+          type: "APP_WALLET", // CREDIT_CARD | APP_WALLET | CASH
           driverCost: 10
         },
         foods: ["#1 set", "Fire chicken", "Cola"]
