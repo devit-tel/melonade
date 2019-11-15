@@ -26,6 +26,7 @@ const findDriverWorker = new Worker(
 
     // Simulate waiting for driver accept on mobile app
     setTimeout(() => {
+      console.log("Driver accepted the job");
       findDriverWorker.updateTask(task, {
         status: taskStates.Completed,
         output: {
@@ -42,7 +43,6 @@ const findDriverWorker = new Worker(
       status: taskStates.Inprogress
     };
 
-
     // If want task to failed just throw an error or return status = failed
 
     // throw new Error('Just error')
@@ -53,7 +53,8 @@ const findDriverWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
 
@@ -71,7 +72,8 @@ const sendOrderToStoreWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
 
@@ -89,7 +91,8 @@ const storePreparingFoodWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
 
@@ -107,7 +110,8 @@ const driverOnTheWayToStoreWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
 
@@ -125,7 +129,8 @@ const driverOnTheWayToCustomerWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
 
@@ -143,7 +148,8 @@ const waitForDriverRecivedCashFromCustomerWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
 
@@ -161,10 +167,10 @@ const takeMoneyFromCreditCardWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
-
 
 const takeMoneyFromAppWalletWorker = new Worker(
   "take_money_from_app_wallet",
@@ -180,7 +186,8 @@ const takeMoneyFromAppWalletWorker = new Worker(
   undefined,
   {
     kafkaServers,
-    namespace
+    namespace,
+    pollingCooldown: 10
   }
 );
 
