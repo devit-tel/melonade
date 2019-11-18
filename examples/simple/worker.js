@@ -73,3 +73,8 @@ const t3Worker = new Worker(
     namespace
   }
 );
+
+
+t1Worker.consumer.on('ready', () => console.log('t1Worker ready'))
+t2Worker.consumer.on('ready', () => console.log('t2Worker ready'))
+t3Worker.consumer.on('ready', () => console.log('t3Worker ready'))

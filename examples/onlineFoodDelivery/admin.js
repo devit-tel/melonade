@@ -10,28 +10,31 @@ const adminClient = new Admin({
 });
 
 const startTime = new Date().toISOString();
-for (let i = 0; i < TOTAL_TRANSACTION; i++) {
-  const transactionId = `${i}-${startTime}`;
-  console.log(`Starting transactionId: ${transactionId}`);
-  adminClient.startTransaction(
-    transactionId,
-    {
-      name: "online_food_delivery",
-      rev: "beta-1"
-    },
-    {
-      pickupLocation: "ABC fire chicken",
-      deliveryLocation: "My house",
-      user: {
-        name: "Me",
-        _id: "My_ID"
+
+adminClient.producer.on("ready", () => {
+  for (let i = 0; i < TOTAL_TRANSACTION; i++) {
+    const transactionId = `${i}-${startTime}`;
+    console.log(`Starting transactionId: ${transactionId}`);
+    adminClient.startTransaction(
+      transactionId,
+      {
+        name: "online_food_delivery",
+        rev: "beta-1"
       },
-      payment: {
-        price: 200,
-        type: "APP_WALLET", // CREDIT_CARD | APP_WALLET | CASH
-        driverCost: 10
-      },
-      foods: ["#1 set", "Fire chicken", "Cola"]
-    }
-  );
-}
+      {
+        pickupLocation: "ABC fire chicken",
+        deliveryLocation: "My house",
+        user: {
+          name: "Me",
+          _id: "My_ID"
+        },
+        payment: {
+          price: 200,
+          type: "APP_WALLET", // CREDIT_CARD | APP_WALLET | CASH
+          driverCost: 10
+        },
+        foods: ["#1 set", "Fire chicken", "Cola"]
+      }
+    );
+  }
+});

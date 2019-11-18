@@ -187,3 +187,12 @@ const takeMoneyFromAppWalletWorker = new Worker(
     pollingCooldown: 10
   }
 );
+
+findDriverWorker.consumer.on('ready', () => console.log('findDriverWorker ready'))
+sendOrderToStoreWorker.consumer.on('ready', () => console.log('findDsendOrderToStoreWorkerriverWorker ready'))
+storePreparingFoodWorker.consumer.on('ready', () => console.log('storePreparingFoodWorker ready'))
+driverOnTheWayToStoreWorker.consumer.on('ready', () => console.log('driverOnTheWayToStoreWorker ready'))
+driverOnTheWayToCustomerWorker.consumer.on('ready', () => console.log('driverOnTheWayToCustomerWorker ready'))
+waitForDriverRecivedCashFromCustomerWorker.consumer.on('ready', () => console.log('waitForDriverRecivedCashFromCustomerWorker ready'))
+takeMoneyFromCreditCardWorker.consumer.on('ready', () => console.log('takeMoneyFromCreditCardWorker ready'))
+takeMoneyFromAppWalletWorker.consumer.on('ready', () => console.log('takeMoneyFromAppWalletWorker ready'))
