@@ -3,7 +3,7 @@ services:
   process-manager:
     image: 'nv4re/melonade-process-manager:v0.6.7'
     ports:
-      - '8080:8080'
+      - '18080:8080'
     depends_on:
       - 'redis'
       - 'zookeeper'
@@ -29,12 +29,17 @@ services:
 
   event-logger:
     image: 'nv4re/melonade-event-logger:v0.0.2'
+    ports:
+      - '28080:8080'
     depends_on:
       - 'elasticsearch'
       - 'kafka'
     environment:
      - melonade.namespace=docker-compose
      - runners.max=1
+     - server.hostname=0.0.0.0
+     - server.port=8080
+     - server.enabled=true
      - kafka.conf.bootstrap.servers=kafka:9092
      - event-store.type=ELASTICSEARCH
      - event-store.elasticsearch.host=http://elasticsearch:9200
@@ -57,10 +62,10 @@ services:
   redis:
     image: 'redis:alpine'
     ports:
-      - '6379:6379'
+      - '16379:6379'
 
   elasticsearch:
-    image: 'elasticsearch:7.4.2'
+    image: 'elasticsearch:6.8.5'
     ports:
       - '9200:9200'
       - '9300:9300'
@@ -88,7 +93,7 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,PLAINTEXT_HOST://:29092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://192.168.1.42:29092
     depends_on:
       - zookeeper
 
