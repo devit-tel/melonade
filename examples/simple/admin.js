@@ -22,7 +22,8 @@ adminClient.producer.on("ready", () => {
       },
       {
         hello: "world"
-      }
+      },
+      ['aa', 'bb', 'cc']
     );
   }
 }).on('error', console.log)
