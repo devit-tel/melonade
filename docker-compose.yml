@@ -1,103 +1,103 @@
-version: '3'
+version: "3"
 services:
   process-manager:
-    image: 'teldev/melonade-process-manager:0.9.6'
+    image: "teldev/melonade-process-manager:0.9.6"
     ports:
-      - '18080:8080'
+      - "18080:8080"
     depends_on:
-      - 'redis'
-      - 'zookeeper'
-      - 'kafka'
+      - "redis"
+      - "zookeeper"
+      - "kafka"
     environment:
-     - melonade.namespace=docker-compose
-     - melonade.example=true
-     - runners.max=1
-     - kafka.conf.bootstrap.servers=kafka:9092
-     - server.hostname=0.0.0.0
-     - server.port=8080
-     - server.enabled=true
-     - topic.kafka.number_partitions=10
-     - topic.kafka.replication_factor=1
-     - task-definition.type=ZOOKEEPER
-     - task-definition.zookeeper.connections=zookeeper:2181
-     - workflow-definition.type=ZOOKEEPER
-     - workflow-definition.zookeeper.connections=zookeeper:2181
-     - task-instance.type=REDIS
-     - task-instance.redis.host=redis
-     - workflow-instance.type=REDIS
-     - workflow-instance.redis.host=redis
-     - transaction-instance.type=REDIS
-     - transaction-instance.redis.host=redis
+      - melonade.namespace=docker-compose
+      - melonade.example=true
+      - runners.max=1
+      - kafka.conf.bootstrap.servers=kafka:9092
+      - server.hostname=0.0.0.0
+      - server.port=8080
+      - server.enabled=true
+      - topic.kafka.number_partitions=10
+      - topic.kafka.replication_factor=1
+      - task-definition.type=ZOOKEEPER
+      - task-definition.zookeeper.connections=zookeeper:2181
+      - workflow-definition.type=ZOOKEEPER
+      - workflow-definition.zookeeper.connections=zookeeper:2181
+      - task-instance.type=REDIS
+      - task-instance.redis.host=redis
+      - workflow-instance.type=REDIS
+      - workflow-instance.redis.host=redis
+      - transaction-instance.type=REDIS
+      - transaction-instance.redis.host=redis
 
   event-logger:
-    image: 'teldev/melonade-event-logger:0.9.7'
+    image: "teldev/melonade-event-logger:0.9.7"
     ports:
-      - '28080:8080'
+      - "28080:8080"
     depends_on:
-      - 'elasticsearch'
-      - 'kafka'
+      - "elasticsearch"
+      - "kafka"
     environment:
-     - melonade.namespace=docker-compose
-     - runners.max=1
-     - server.hostname=0.0.0.0
-     - server.port=8080
-     - server.enabled=true
-     - topic.kafka.number_partitions=10
-     - topic.kafka.replication_factor=1
-     - kafka.conf.bootstrap.servers=kafka:9092
-     - event-store.type=ELASTICSEARCH
-     - event-store.elasticsearch.host=http://elasticsearch:9200
+      - melonade.namespace=docker-compose
+      - runners.max=1
+      - server.hostname=0.0.0.0
+      - server.port=8080
+      - server.enabled=true
+      - topic.kafka.number_partitions=10
+      - topic.kafka.replication_factor=1
+      - kafka.conf.bootstrap.servers=kafka:9092
+      - event-store.type=ELASTICSEARCH
+      - event-store.elasticsearch.host=http://elasticsearch:9200
 
   time-keeper:
-    image: 'teldev/melonade-time-keeper:0.9.1'
+    image: "teldev/melonade-time-keeper:0.9.1"
     depends_on:
-      - 'redis'
-      - 'zookeeper'
-      - 'kafka'
+      - "redis"
+      - "zookeeper"
+      - "kafka"
     environment:
-     - melonade.namespace=docker-compose
-     - runners.max=1
-     - topic.kafka.number_partitions=10
-     - topic.kafka.replication_factor=1
-     - kafka.conf.bootstrap.servers=kafka:9092
-     - timer-instance.type=REDIS
-     - timer-instance.redis.host=redis
-     - timer-leader.type=ZOOKEEPER
-     - timer-leader.zookeeper.connections=zookeeper:2181
+      - melonade.namespace=docker-compose
+      - runners.max=1
+      - topic.kafka.number_partitions=10
+      - topic.kafka.replication_factor=1
+      - kafka.conf.bootstrap.servers=kafka:9092
+      - timer-instance.type=REDIS
+      - timer-instance.redis.host=redis
+      - timer-leader.type=ZOOKEEPER
+      - timer-leader.zookeeper.connections=zookeeper:2181
 
   front-end:
-    image: 'teldev/melonade-front-end:0.9.20'
+    image: "teldev/melonade-front-end:0.9.22"
     environment:
-     - EVENT_LOGGER_HTTP_BASEURL=http://event-logger/
-     - PROCESS_MANAGER_HTTP_BASEURL=http://process-manager/
+      - EVENT_LOGGER_HTTP_BASEURL=http://event-logger/
+      - PROCESS_MANAGER_HTTP_BASEURL=http://process-manager/
 
   redis:
-    image: 'redis:alpine'
+    image: "redis:alpine"
     ports:
-      - '16379:6379'
+      - "16379:6379"
 
   elasticsearch:
-    image: 'elasticsearch:7.5.0'
+    image: "elasticsearch:7.5.0"
     ports:
-      - '9200:9200'
-      - '9300:9300'
+      - "9200:9200"
+      - "9300:9300"
     environment:
       - discovery.type=single-node
 
   zookeeper:
-    image: 'bitnami/zookeeper:3'
+    image: "bitnami/zookeeper:3"
     ports:
-      - '2181:2181'
+      - "2181:2181"
     # volumes:
     #   - 'zookeeper_data:/bitnami'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
-    image: 'bitnami/kafka:2'
+    image: "bitnami/kafka:2"
     ports:
-      - '9092:9092'
-      - '29092:29092'
+      - "9092:9092"
+      - "29092:29092"
     # volumes:
     #   - 'kafka_data:/bitnami'
     environment:
@@ -108,7 +108,6 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://192.168.1.42:29092
     depends_on:
       - zookeeper
-
 # volumes:
 #   zookeeper_data:
 #     driver: local
