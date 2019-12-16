@@ -66,7 +66,7 @@ services:
       - timer-leader.zookeeper.connections=zookeeper:2181
 
   front-end:
-    image: "teldev/melonade-front-end:0.9.23"
+    image: "teldev/melonade-front-end:0.9.24"
     ports:
       - "8083:80"
     depends_on:
