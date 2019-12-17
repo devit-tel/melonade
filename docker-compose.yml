@@ -53,7 +53,7 @@ services:
       - event-store.elasticsearch.hosts=http://elasticsearch:9200
 
   time-keeper:
-    image: "teldev/melonade-time-keeper:0.9.3"
+    image: "teldev/melonade-time-keeper:0.9.4"
     depends_on:
       - "redis"
       - "zookeeper"
