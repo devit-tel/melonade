@@ -1,0 +1,131 @@
+version: "2.1"
+services:
+  process-manager:
+    image: "teldev/melonade-process-manager:0.10.1"
+    ports:
+      - "8081:8080"
+    depends_on:
+      - "mongo"
+      - "zookeeper"
+      - "kafka"
+    environment:
+      - melonade.namespace=docker-compose
+      - melonade.example=true
+      - runners.max=1
+      - kafka.conf.bootstrap.servers=kafka:9092
+      - server.hostname=0.0.0.0
+      - server.port=8080
+      - server.enabled=true
+      - topic.kafka.number_partitions=10
+      - topic.kafka.replication_factor=1
+      - task-definition.type=ZOOKEEPER
+      - task-definition.zookeeper.connections=zookeeper:2181
+      - workflow-definition.type=ZOOKEEPER
+      - workflow-definition.zookeeper.connections=zookeeper:2181
+      - task-instance.type=MONGODB
+      - task-instance.mongodb.url=mongodb://mongo:27017/dbName
+      - workflow-instance.type=MONGODB
+      - workflow-instance.mongodb.url=mongodb://mongo:27017/dbName
+      - transaction-instance.type=MONGODB
+      - transaction-instance.mongodb.url=mongodb://mongo:27017/dbName
+
+  event-logger:
+    image: "teldev/melonade-event-logger:0.10.1"
+    ports:
+      - "8082:8080"
+    depends_on:
+      "elasticsearch":
+        condition: service_healthy
+      "kafka":
+        condition: service_started
+      "process-manager":
+        condition: service_started
+    environment:
+      - melonade.namespace=docker-compose
+      - runners.max=1
+      - server.hostname=0.0.0.0
+      - server.port=8080
+      - server.enabled=true
+      - topic.kafka.number_partitions=10
+      - topic.kafka.replication_factor=1
+      - kafka.conf.bootstrap.servers=kafka:9092
+      - event-store.type=ELASTICSEARCH
+      - event-store.elasticsearch.hosts=http://elasticsearch:9200
+
+  time-keeper:
+    image: "teldev/melonade-time-keeper:0.9.4"
+    depends_on:
+      - "mongo"
+      - "zookeeper"
+      - "kafka"
+      - "process-manager"
+    environment:
+      - melonade.namespace=docker-compose
+      - runners.max=1
+      - topic.kafka.number_partitions=10
+      - topic.kafka.replication_factor=1
+      - kafka.conf.bootstrap.servers=kafka:9092
+      - timer-instance.type=MONGODB
+      - timer-instance.mongodb.uri=mongodb://mongo:27017/dbName
+      - timer-leader.type=ZOOKEEPER
+      - timer-leader.zookeeper.connections=zookeeper:2181
+
+  front-end:
+    image: "teldev/melonade-front-end:0.10.1"
+    ports:
+      - "8083:80"
+    depends_on:
+      - "event-logger"
+      - "process-manager"
+    environment:
+      - PORT=80
+      - EVENT_LOGGER_HTTP_BASEURL=http://event-logger:8080/
+      - PROCESS_MANAGER_HTTP_BASEURL=http://process-manager:8080/
+
+  mongo:
+    image: "mongo:4"
+    ports:
+      - "37017:27017"
+
+  elasticsearch:
+    image: "elasticsearch:6.8.5"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+    healthcheck:
+        test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+        interval: 30s
+        timeout: 30s
+        retries: 3
+
+  zookeeper:
+    image: "bitnami/zookeeper:3"
+    ports:
+      - "2181:2181"
+    # volumes:
+    #   - 'zookeeper_data:/bitnami'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: "bitnami/kafka:2"
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    # volumes:
+    #   - 'kafka_data:/bitnami'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,PLAINTEXT_HOST://:29092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+    depends_on:
+      - zookeeper
+# volumes:
+#   zookeeper_data:
+#     driver: local
+#   kafka_data:
+#     driver: local
