@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   process-manager:
-    image: "teldev/melonade-process-manager:0.10.1"
+    image: "teldev/melonade-process-manager:0.11.0"
     ports:
       - "8081:8080"
     depends_on:
@@ -53,7 +53,7 @@ services:
       - event-store.elasticsearch.hosts=http://elasticsearch:9200
 
   time-keeper:
-    image: "teldev/melonade-time-keeper:0.9.4"
+    image: "teldev/melonade-time-keeper:0.11.0"
     depends_on:
       - "redis"
       - "zookeeper"
@@ -71,7 +71,7 @@ services:
       - timer-leader.zookeeper.connections=zookeeper:2181
 
   front-end:
-    image: "teldev/melonade-front-end:0.10.1"
+    image: "teldev/melonade-front-end:0.11.0"
     ports:
       - "8083:80"
     depends_on:
