@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   process-manager:
-    image: "teldev/melonade-process-manager:0.10.1"
+    image: "teldev/melonade-process-manager:0.11.0"
     ports:
       - "8081:8080"
     depends_on:
@@ -23,11 +23,11 @@ services:
       - workflow-definition.type=ZOOKEEPER
       - workflow-definition.zookeeper.connections=zookeeper:2181
       - task-instance.type=MONGODB
-      - task-instance.mongodb.url=mongodb://mongo:27017/dbName
+      - task-instance.mongodb.uri=mongodb://mongo:27017/dbName
       - workflow-instance.type=MONGODB
-      - workflow-instance.mongodb.url=mongodb://mongo:27017/dbName
+      - workflow-instance.mongodb.uri=mongodb://mongo:27017/dbName
       - transaction-instance.type=MONGODB
-      - transaction-instance.mongodb.url=mongodb://mongo:27017/dbName
+      - transaction-instance.mongodb.uri=mongodb://mongo:27017/dbName
 
   event-logger:
     image: "teldev/melonade-event-logger:0.10.1"
@@ -53,7 +53,7 @@ services:
       - event-store.elasticsearch.hosts=http://elasticsearch:9200
 
   time-keeper:
-    image: "teldev/melonade-time-keeper:0.9.4"
+    image: "teldev/melonade-time-keeper:0.11.0"
     depends_on:
       - "mongo"
       - "zookeeper"
@@ -65,13 +65,9 @@ services:
       - topic.kafka.number_partitions=10
       - topic.kafka.replication_factor=1
       - kafka.conf.bootstrap.servers=kafka:9092
-      - timer-instance.type=MONGODB
-      - timer-instance.mongodb.uri=mongodb://mongo:27017/dbName
-      - timer-leader.type=ZOOKEEPER
-      - timer-leader.zookeeper.connections=zookeeper:2181
 
   front-end:
-    image: "teldev/melonade-front-end:0.10.1"
+    image: "teldev/melonade-front-end:0.11.0"
     ports:
       - "8083:80"
     depends_on:
