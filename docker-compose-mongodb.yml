@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   process-manager:
-    image: "teldev/melonade-process-manager:0.11.3"
+    image: "teldev/melonade-process-manager:0.11.4"
     ports:
       - "8081:8080"
     depends_on:
@@ -53,7 +53,7 @@ services:
       - event-store.elasticsearch.hosts=http://elasticsearch:9200
 
   time-keeper:
-    image: "teldev/melonade-time-keeper:0.11.0"
+    image: "teldev/melonade-time-keeper:0.11.2"
     depends_on:
       - "mongo"
       - "zookeeper"
@@ -67,7 +67,7 @@ services:
       - kafka.conf.bootstrap.servers=kafka:9092
 
   front-end:
-    image: "teldev/melonade-front-end:0.11.3"
+    image: "teldev/melonade-front-end:0.11.5"
     ports:
       - "8083:80"
     depends_on:
