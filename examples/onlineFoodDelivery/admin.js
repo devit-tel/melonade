@@ -11,7 +11,7 @@ const adminClient = new Admin({
 
 const startTime = new Date().toISOString();
 
-adminClient.producer.on("ready", () => {
+adminClient.on("ready", () => {
   for (let i = 0; i < TOTAL_TRANSACTION; i++) {
     const transactionId = `${i}-${startTime}`;
     console.log(`Starting transactionId: ${transactionId}`);

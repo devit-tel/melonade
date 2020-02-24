@@ -1,4 +1,4 @@
-const { Worker, taskStates } = require("@melonade/melonade-client");
+const { Worker, TaskStates } = require("@melonade/melonade-client");
 
 const kafkaServers = "localhost:29092";
 const namespace = "docker-compose";
@@ -10,7 +10,7 @@ const t1Worker = new Worker(
   task => {
     console.log(`Processing ${task.taskName}`);
     return {
-      status: taskStates.Completed,
+      status: TaskStates.Completed,
       output: {
         hello: `${task.input.hello} => ${task.taskName}`
       }
@@ -19,7 +19,7 @@ const t1Worker = new Worker(
   task => {
     console.log(`Compensating ${task.taskName}`);
     return {
-      status: taskStates.Completed
+      status: TaskStates.Completed
     };
   },
   {
@@ -33,7 +33,7 @@ const t2Worker = new Worker(
   task => {
     console.log(`Processing ${task.taskName}`);
     return {
-      status: taskStates.Completed,
+      status: TaskStates.Completed,
       output: {
         hello: `${task.input.hello} => ${task.taskName}`
       }
@@ -42,7 +42,7 @@ const t2Worker = new Worker(
   task => {
     console.log(`Compensating ${task.taskName}`);
     return {
-      status: taskStates.Completed
+      status: TaskStates.Completed
     };
   },
   {
@@ -56,7 +56,7 @@ const t3Worker = new Worker(
   task => {
     console.log(`Processing ${task.taskName}`);
     return {
-      status: taskStates.Completed,
+      status: TaskStates.Failed,
       output: {
         hello: `${task.input.hello} => ${task.taskName}`
       }
@@ -65,7 +65,7 @@ const t3Worker = new Worker(
   task => {
     console.log(`Compensating ${task.taskName}`);
     return {
-      status: taskStates.Completed
+      status: TaskStates.Completed
     };
   },
   {
@@ -75,6 +75,6 @@ const t3Worker = new Worker(
 );
 
 
-t1Worker.consumer.on('ready', () => console.log('t1Worker ready'))
-t2Worker.consumer.on('ready', () => console.log('t2Worker ready'))
-t3Worker.consumer.on('ready', () => console.log('t3Worker ready'))
+t1Worker.once('ready', () => console.log('t1Worker ready'))
+t2Worker.once('ready', () => console.log('t2Worker ready'))
+t3Worker.once('ready', () => console.log('t3Worker ready'))
