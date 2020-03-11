@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/devit-tel/melonade#readme",
   "dependencies": {
-    "@melonade/melonade-client": "^0.13.4"
+    "@melonade/melonade-client": "^0.13.4",
+    "@melonade/melonade-declaration": "^0.15.0"
   }
 }
