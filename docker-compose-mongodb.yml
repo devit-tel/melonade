@@ -67,7 +67,7 @@ services:
       - kafka.conf.bootstrap.servers=kafka:9092
 
   front-end:
-    image: "teldev/melonade-front-end:0.15.2"
+    image: "teldev/melonade-front-end:0.15.3"
     ports:
       - "8083:80"
     depends_on:
