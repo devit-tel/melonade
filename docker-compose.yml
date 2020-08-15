@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   process-manager:
-    image: 'teldev/melonade-process-manager:0.19.0'
+    image: 'teldev/melonade-process-manager:0.19.2'
     ports:
       - '8081:8080'
     depends_on:
