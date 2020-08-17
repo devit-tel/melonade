@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   process-manager:
-    image: 'teldev/melonade-process-manager:0.19.2'
+    image: 'teldev/melonade-process-manager:0.20.0'
     ports:
       - '8081:8080'
     depends_on:
@@ -61,7 +61,7 @@ services:
       - topic.kafka.replication_factor=1
       - 'kafka.conf.bootstrap.servers=kafka:9092'
   front-end:
-    image: 'teldev/melonade-front-end:0.18.2'
+    image: 'teldev/melonade-front-end:0.20.0'
     ports:
       - '8083:80'
     depends_on:
@@ -100,8 +100,8 @@ services:
     ports:
       - '9092:9092'
       - '29092:29092'
-    volumes: 
-      - ./kafka-config/:/opt/bitnami/kafka/conf/:ro
+    volumes:
+      - './kafka-config/:/opt/bitnami/kafka/conf/:ro'
     environment:
       - 'KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181'
       - ALLOW_PLAINTEXT_LISTENER=yes

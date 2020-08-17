@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   process-manager:
-    image: "teldev/melonade-process-manager:0.19.0"
+    image: "teldev/melonade-process-manager:0.20.0"
     ports:
       - "8081:8080"
     depends_on:
@@ -67,7 +67,7 @@ services:
       - kafka.conf.bootstrap.servers=kafka:9092
 
   front-end:
-    image: "teldev/melonade-front-end:0.18.2"
+    image: "teldev/melonade-front-end:0.20.0"
     ports:
       - "8083:80"
     depends_on:
