@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   process-manager:
-    image: "teldev/melonade-process-manager:0.20.0"
+    image: "teldev/melonade-process-manager:0.22.2"
     ports:
       - "8081:8080"
     depends_on:
@@ -28,9 +28,11 @@ services:
       - workflow-instance.mongodb.uri=mongodb://mongo:27017/dbName
       - transaction-instance.type=MONGODB
       - transaction-instance.mongodb.uri=mongodb://mongo:27017/dbName
+      - distributed-lock.type=REDIS
+      - distributed-lock.redis.host=redis
 
   event-logger:
-    image: "teldev/melonade-event-logger:0.18.2"
+    image: "teldev/melonade-event-logger:0.21.1"
     ports:
       - "8082:8080"
     depends_on:
@@ -53,7 +55,7 @@ services:
       - event-store.elasticsearch.hosts=http://elasticsearch:9200
 
   time-keeper:
-    image: "teldev/melonade-time-keeper:0.15.1"
+    image: "teldev/melonade-time-keeper:0.21.0"
     depends_on:
       - "mongo"
       - "zookeeper"
@@ -67,7 +69,7 @@ services:
       - kafka.conf.bootstrap.servers=kafka:9092
 
   front-end:
-    image: "teldev/melonade-front-end:0.20.0"
+    image: "teldev/melonade-front-end:0.22.0"
     ports:
       - "8083:80"
     depends_on:
@@ -96,6 +98,11 @@ services:
         timeout: 30s
         retries: 3
 
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '16379:6379'
+      
   zookeeper:
     image: "bitnami/zookeeper:3"
     ports:
