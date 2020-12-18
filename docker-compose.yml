@@ -31,7 +31,7 @@ services:
       - distributed-lock.type=REDIS
       - distributed-lock.redis.host=redis
   event-logger:
-    image: 'teldev/melonade-event-logger:0.21.1'
+    image: 'teldev/melonade-event-logger:0.21.2'
     ports:
       - '8082:8080'
     depends_on:
