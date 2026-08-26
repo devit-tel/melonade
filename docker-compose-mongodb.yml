@@ -108,7 +108,7 @@ services:
       - "16379:6379"
 
   zookeeper:
-    image: "bitnami/zookeeper:3"
+    image: "soldevelo/zookeeper:3.9"
     ports:
       - "2181:2181"
     # volumes:

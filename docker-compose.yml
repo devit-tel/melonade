@@ -92,7 +92,7 @@ services:
       timeout: 30s
       retries: 3
   zookeeper:
-    image: 'bitnami/zookeeper:3'
+    image: 'soldevelo/zookeeper:3.9'
     ports:
       - '2181:2181'
     environment:
